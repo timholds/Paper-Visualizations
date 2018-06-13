@@ -71,9 +71,11 @@ d3.json("{{url_for('static', filename='data-2-bubbles.json')}}", function(error,
       .attr("class", "node")
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
-  function update(node) {
+  // TODO figure out if I should delete this update function or leave it outside d3.json
+  function update(year) {
      circle.transition()
-          .attr("r", )
+     // TODO figure out how to initialize all radiuses to the right values using the year to get data from data.json
+          .attr("r", year)
   }
 
   node.append("circle")
@@ -121,7 +123,7 @@ function update(year) {
   var t = d3.transition()
     .duration(750);
 
-  // TODO figure out how to apply this transition to all nodes for size
+  // TODO figure out how to apply this transition to all nodes
 
   year_index = year - 2000
   // update the circle radius
