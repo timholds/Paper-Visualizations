@@ -10,11 +10,11 @@
 <script src="http://d3js.org/d3.v3.min.js"></script>
 
 <p>
-  <label for="nRadius"
+  <label for="year"
          style="display: inline-block; width: 240px; text-align: right">
-         year = <span id="nRadius-value">…</span>
+         year = <span id="year-value">…</span>
   </label>
-  <input type="range" min="15" max="150" id="nRadius">
+  <input type="range" min="2000" max="2001" id="year">
 </p>
 
 <script>
@@ -27,45 +27,14 @@ var holder = d3.select("body")
       .attr("width", width)
       .attr("height", height);
 
-// draw circle 1
-holder.append("circle")
-  .attr("cx", 50)
-  .attr("cy", 150)
-  .style("fill", "none")
-  .style("stroke", "blue")
-  .attr("r", 120);
-
-// draw circle 2
-holder.append("circle")
-  .attr("cx", 300)
-  .attr("cy", 150)
-  .style("fill", "none")
-  .style("stroke", "blue")
-  .attr("r", 120);
-
-// when the input range changes update the circle
-d3.select("#nRadius").on("input", function() {
+// when the input year changes update the circle
+d3.select("#year").on("input", function() {
   update(+this.value);
 });
 
-// Initial starting radius of the circle
-update(120);
+// Initial starting year
+update(2000);
 
-// update the elements
-function update(nRadius) {
-
-  // adjust the text on the range slider
-  d3.select("#nRadius-value").text(nRadius);
-  d3.select("#nRadius").property("value", nRadius);
-
-  // update the circle radius
-  holder.selectAll("circle")
-    .attr("r", nRadius);
-}
-
-</script>
-
-<script>
 
 var diameter = 960,
     format = d3.format(",d"),
@@ -127,12 +96,31 @@ function classes(root) {
 
   function recurse(name, node) {
     if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
+    // need to make this so that it gets the size corresponding to the year
     else classes.push({packageName: name, className: node.name, value: node.size[0]});
   }
 
   recurse(null, root);
   return {children: classes};
 }
+
+// update the elements
+// todo make the range and year_value its own function and check for off by one
+function update(year) {
+
+  // adjust the text on the range slider
+  d3.select("#year-value").text(year);
+  d3.select("#year").property("value", year);
+
+  year_index = year - 2000
+  // update the circle radius
+  // TODO this needs to be updated to update all cricle radiuses -> insert into another method?
+  holder.selectAll(".node")
+    // .attr("r", node.size[year_index])
+    .attr("r", year);
+    //.attr("r", node.size[0])
+}
+
 
 d3.select(self.frameElement).style("height", diameter + "px");
 
