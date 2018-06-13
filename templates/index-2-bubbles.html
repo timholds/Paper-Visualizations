@@ -71,6 +71,11 @@ d3.json("{{url_for('static', filename='data-2-bubbles.json')}}", function(error,
       .attr("class", "node")
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
+  function update(node) {
+     circle.transition()
+          .attr("r", )
+  }
+
   node.append("circle")
       .attr("r", function(d) { return d.r; })
       .style("fill", function(d) { return color(d.packageName); })
@@ -112,9 +117,16 @@ function update(year) {
   d3.select("#year-value").text(year);
   d3.select("#year").property("value", year);
 
+  // transition for the node sizes
+  var t = d3.transition()
+    .duration(750);
+
+  // TODO figure out how to apply this transition to all nodes for size
+
   year_index = year - 2000
   // update the circle radius
-  // TODO this needs to be updated to update all cricle radiuses -> insert into another method?
+  // TODO this needs to update all circle radiuses
+  // TODO figure out if holder and .node need to be changed, if we should use update() method of d3.js
   holder.selectAll(".node")
     // .attr("r", node.size[year_index])
     .attr("r", year);
